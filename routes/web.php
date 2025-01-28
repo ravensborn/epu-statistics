@@ -15,16 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
+Route::prefix('statistics')->group(function () {
+
+    Route::get('/', function () {
+        return redirect()->route('login');
+    });
+
+    Auth::routes([
+        'register' => false,
+        'reset' => false,
+        'verify' => false,
+        'confirm' => false,
+    ]);
+
+    Route::get('/statistics/{college}', [HomeController::class, 'statistics'])->name('statistics');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
 });
 
-Auth::routes([
-    'register' => false,
-    'reset' => false,
-    'verify' => false,
-    'confirm' => false,
-]);
-
-Route::get('/statistics/{college}', [HomeController::class, 'statistics'])->name('statistics');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
